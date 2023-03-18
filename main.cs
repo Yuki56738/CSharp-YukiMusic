@@ -45,6 +45,7 @@ public class main
         appCommands.RegisterGuildCommands<MyCommand>(977138017095520256);
         discord.Ready += ReadyHandler;
         discord.MessageCreated += MessageCreatedHandler;
+        
         await discord.ConnectAsync();
         await lavalink.ConnectAsync(lavaConfig);
         await Task.Delay(-1);
