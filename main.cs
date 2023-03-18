@@ -1,7 +1,5 @@
-using ConsoleApp5;
 using DisCatSharp;
 using DisCatSharp.ApplicationCommands;
-using DisCatSharp.Common.Utilities;
 using DisCatSharp.Enums;
 using DisCatSharp.EventArgs;
 using DisCatSharp.VoiceNext;
@@ -9,7 +7,7 @@ using dotenv.net;
 using DisCatSharp.Net;
 using DisCatSharp.Lavalink;
 
-namespace ConsoleApp5;
+namespace YukiMusicCSharp;
 
 public class main
 {
@@ -45,10 +43,32 @@ public class main
         appCommands.RegisterGuildCommands<MyCommand>(977138017095520256);
         discord.Ready += ReadyHandler;
         discord.MessageCreated += MessageCreatedHandler;
+        discord.VoiceStateUpdated += VoiceStateUpdatedHandler;
         
         await discord.ConnectAsync();
         await lavalink.ConnectAsync(lavaConfig);
         await Task.Delay(-1);
+    }
+
+    private static async Task VoiceStateUpdatedHandler(DiscordClient client, VoiceStateUpdateEventArgs @event)
+    {
+        if (@event.Channel.Users.Count == 1)
+        {
+            try
+            {
+                MusicQueue<string>.Instance.Clear(@event.Guild.Id);
+                // queue.GuildQueueDictionary[ctx.Guild.Id.ToString()] = q;
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine(e);
+            }
+        
+            var lava = client.GetLavalink();
+            var node = lava.ConnectedNodes.Values.First();
+            var conn = node.GetGuildConnection(@event.Guild);
+            await conn.DisconnectAsync();
+        }
     }
 
     private static Task MessageCreatedHandler(DiscordClient c, MessageCreateEventArgs e)

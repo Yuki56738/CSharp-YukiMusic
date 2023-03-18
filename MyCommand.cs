@@ -1,21 +1,13 @@
-using System.Collections;
-using System.Diagnostics;
 using DisCatSharp.ApplicationCommands;
 using DisCatSharp.ApplicationCommands.Attributes;
 using DisCatSharp.ApplicationCommands.Context;
-using DisCatSharp.CommandsNext;
-using DisCatSharp.CommandsNext.Attributes;
 using DisCatSharp.Entities;
 using DisCatSharp.Enums;
 using DisCatSharp.Lavalink;
-using DisCatSharp.VoiceNext;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Runtime.CompilerServices;
 using DisCatSharp.Common.Utilities;
 using DisCatSharp.Lavalink.EventArgs;
 
-namespace ConsoleApp5;
+namespace YukiMusicCSharp;
 public class MyCommand : ApplicationCommandsModule
 {
 
