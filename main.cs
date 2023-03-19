@@ -68,6 +68,9 @@ public class main
             var node = lava.ConnectedNodes.Values.First();
             var conn = node.GetGuildConnection(@event.Guild);
             await conn.DisconnectAsync();
+            var vcnext = client.GetVoiceNext();
+            var connection = vcnext.GetConnection(@event.Guild);
+            connection.Disconnect();
         }
     }
 
@@ -77,10 +80,16 @@ public class main
         return default;
     }
 
-    private static Task ReadyHandler(DiscordClient sender, ReadyEventArgs e)
+    private static async Task ReadyHandler(DiscordClient sender, ReadyEventArgs e)
     {
         Console.WriteLine("Logged in as: " + sender.CurrentUser.Username);
+        foreach (var x in sender.Guilds)
+        {
+            // Console.WriteLine(x.Value.Name);
+            var guild = await sender.TryGetGuildAsync(x.Value.Id);
+            Console.WriteLine(guild.Name);
+        }
+        Console.WriteLine(sender.Guilds.Count);
         // throw new NotImplementedException();
-        return default;
     }
 }
