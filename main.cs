@@ -19,11 +19,12 @@ public class main
 
     public static async Task MainAsync()
     {
-        DotEnv.Load(new DotEnvOptions(envFilePaths: new []{"env"}));
+        // DotEnv.Load();
         
         var discord = new DiscordClient(new DiscordConfiguration()
         {
-            Token = DotEnv.Read()["DISCORD_TOKEN"],
+            // Token = DotEnv.Read()["DISCORD_TOKEN"],
+            Token = Environment.GetEnvironmentVariable("DISCORD_TOKEN"),
             TokenType = TokenType.Bot,
             Intents = DiscordIntents.All
         });
@@ -41,9 +42,10 @@ public class main
         };
         var lavalink = discord.UseLavalink();
         var appCommands = discord.UseApplicationCommands();
+        appCommands.RegisterGlobalCommands<MyCommand>();
         appCommands.RegisterGuildCommands<MyCommand>(977138017095520256);
         discord.Ready += ReadyHandler;
-        discord.MessageCreated += MessageCreatedHandler;
+        // discord.MessageCreated += MessageCreatedHandler;
         discord.VoiceStateUpdated += VoiceStateUpdatedHandler;
         
         await discord.ConnectAsync();
@@ -75,11 +77,11 @@ public class main
         }
     }
 
-    private static Task MessageCreatedHandler(DiscordClient c, MessageCreateEventArgs e)
-    {
-        Console.WriteLine("MessageCreatedEvent: " + e.Message.Content);
-        return default;
-    }
+    // private static Task MessageCreatedHandler(DiscordClient c, MessageCreateEventArgs e)
+    // {
+        // Console.WriteLine("MessageCreatedEvent: " + e.Message.Content);
+        // return default;
+    // }
 
     private static async Task ReadyHandler(DiscordClient sender, ReadyEventArgs e)
     {
