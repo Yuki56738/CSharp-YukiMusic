@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using DisCatSharp;
 using DisCatSharp.ApplicationCommands;
 using DisCatSharp.Enums;
@@ -18,7 +19,7 @@ public class main
 
     public static async Task MainAsync()
     {
-        DotEnv.Load();
+        DotEnv.Load(new DotEnvOptions(envFilePaths: new []{"env"}));
         
         var discord = new DiscordClient(new DiscordConfiguration()
         {
